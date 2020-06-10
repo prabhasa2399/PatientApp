@@ -36,7 +36,7 @@ export class ApiService {
 
   getFilteredPatients(obj: SearchModel): Observable<any> {
     return this.httpClient.get(environment.queryURI + '/Patient?'+ (obj.name ? obj.birthDate ? 
-      'birthdate=eq'+ obj.birthDate + '&given='+ obj.name : 'given=' + obj.name : obj.birthDate),
+      'birthdate=eq'+ obj.birthDate + '&given='+ obj.name : 'given=' + obj.name : 'birthdate=eq' + obj.birthDate),
       { headers: this.getHeaders() }); 
   }
 }
