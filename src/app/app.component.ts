@@ -4,7 +4,8 @@ import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { SearchModel } from './Models/searchModel';
 import { CommonUtilityService } from './services/commonUtility.service';
 import { PatientName } from './models/patientName';
-
+import { Subject } from 'rxjs';
+import {debounceTime, distinctUntilChanged} from "rxjs/internal/operators";
 
 @Component({
   selector: 'app-root',
@@ -14,21 +15,27 @@ import { PatientName } from './models/patientName';
 
 export class AppComponent implements OnInit {
   title = 'fhir-app-test';
-
-  constructor(
-    private apiService: ApiService,
-    private commonUtilityService: CommonUtilityService
-  ) { }
-
   patients : any;
   requestTime : Date;
   outputTime : Date;
   name: string;
+  nameChanged: Subject<string> = new Subject<string>();
   model: NgbDateStruct;
   patientsName: PatientName;
   birthDates: string[] = [
     '1960-1965', '1960-1970'
   ]
+
+  constructor(
+    private apiService: ApiService,
+    private commonUtilityService: CommonUtilityService
+  ) { 
+    this.nameChanged.pipe(debounceTime(1000), distinctUntilChanged())
+      .subscribe(model => {
+        this.name = model;
+        this.searchResults();
+      });
+  }
 
   ngOnInit() {  
     this.requestTime = this.getTime();
@@ -73,5 +80,9 @@ export class AppComponent implements OnInit {
         console.log(this.patients)
       });
     }
+  }
+
+  onFieldChange(name:string){
+    this.nameChanged.next(name);
   }
 }
