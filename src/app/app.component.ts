@@ -26,14 +26,14 @@ export class AppComponent implements OnInit {
   name: string;
   model: NgbDateStruct;
   patientsName: PatientName;
+  birthDates: string[] = [
+    '1960-1965', '1960-1970'
+  ]
 
   ngOnInit() {  
     this.requestTime = this.getTime();
     // Api Service call for Specific Birthdate Year 1960 & 1965
-    const dates: string[] = this.commonUtilityService.getDateFromYear(1960, 1965);
-    dates && this.apiService.getPatientsForSpecificBirthdateYear(dates[0], dates[1]).subscribe(data => {
-      console.log('Specific BirthDate Response'+ data['entry']);
-    });
+    
     this.apiService.getPatients().subscribe(
       data => {
         console.log(data);
@@ -43,6 +43,14 @@ export class AppComponent implements OnInit {
     this.outputTime = this.getTime();
   }
 
+  getPatientForSpecificBirthDate(value: string) {
+    const data: string[] = value.split('-');
+    const dates: string[] = this.commonUtilityService.getDateFromYear(data[0], data[1]);
+    dates && this.apiService.getPatientsForSpecificBirthdateYear(dates[0], dates[1]).subscribe(data => {
+      console.log('Specific BirthDate Response'+ JSON.parse(JSON.stringify(data['entry'])));
+      this.patients = data;
+    });
+  }
   sortData() {
     this.commonUtilityService.sortArray(this.patients.entry, 'birthDate');
   }

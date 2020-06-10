@@ -1,5 +1,13 @@
 <h2 style="margin-left:35%;">Patients</h2>
 <!-- Search form -->
+<label for="birthDate" class="birth-date">Choose BirthDate</label>
+
+<select name="birthDate" id="birthDate" (change)="getPatientForSpecificBirthDate($event.target.value)">
+    <option value="0">--All--</option>
+    <option *ngFor="let date of birthDates" value={{date}}>
+      {{date}}
+    </option>
+</select>
 <form class="form-inline waves-light" style="margin-left:35%;margin-bottom:10px;" mdbWavesEffect>
     <input class="form-control mr-sm-2" type="text" placeholder="Enter the name" aria-label="Search" [(ngModel)]="name" name="searchName">
     <div class="form-group">

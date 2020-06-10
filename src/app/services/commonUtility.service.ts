@@ -23,11 +23,11 @@ export class CommonUtilityService {
         });
     }
 
-    getDateFromYear(year1: number, year2: number) {
+    getDateFromYear(year1: string, year2: string) {
         if(year1 < year2) {
             let dates : string[] = [];
-            const date1 =  (year1 - 1).toString() + '-12-31';
-            const date2 = (year2 + 1).toString() + '-01-01';
+            const date1 =  (parseInt(year1) - 1).toString() + '-12-31';
+            const date2 = (parseInt(year2) + 1).toString() + '-01-01';
             dates.push(date1);
             dates.push(date2);
             return dates;
