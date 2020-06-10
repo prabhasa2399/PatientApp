@@ -1,0 +1,31 @@
+<h2 style="margin-left:35%;">Patients</h2>
+<!-- Search form -->
+<form class="form-inline waves-light" style="margin-left:35%;margin-bottom:10px;" mdbWavesEffect>
+    <input class="form-control mr-sm-2" type="text" placeholder="Enter the name" aria-label="Search" [(ngModel)]="name" name="searchName">
+    <div class="form-group">
+      <div class="input-group">
+        <input class="form-control" placeholder="yyyy-mm-dd" [(ngModel)]="model"
+               name="dp" ngbDatepicker #d="ngbDatepicker">
+        <div class="input-group-append">
+          <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"></button>
+        </div>
+      </div>
+    </div>
+  <button mdbBtn size="sm" gradient="aqua" rounded="true" class="my-0 waves-light" mdbWavesEffect type="button"
+  (click)="searchResults()">Search</button>
+</form>
+<table>
+    <tr>
+    <th>Id</th>
+    <th>Gender</th>
+    <th>Birth Date<a class="sort" (click)="sortData()">Sort</a></th>
+    </tr>
+    <tr *ngFor="let data of patients?.entry">
+    <td>{{ data.resource.id }}</td>
+    <td>{{ data.resource.gender }}</td>
+    <td>{{ data.resource.birthDate }}</td>
+    </tr>
+</table>
+
+<h4 style="margin-left:5%;">Request On : {{requestTime | date:'yyyy/MM/dd h:mm:ss:SSS a'}}</h4>
+<h4 style="margin-left:5%;">Response On: {{outputTime | date:'yyyy/MM/dd h:mm:ss:SSS a'}}</h4>
